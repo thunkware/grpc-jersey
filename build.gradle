@@ -41,7 +41,7 @@ subprojects {
         sha256 = ""
     }
 
-    group = "com.xorlev.${rootProject.name}"
+    group = "io.github.thunkware"
 
     configurations.all {
         exclude group: 'org.slf4j', module: 'slf4j-simple'
