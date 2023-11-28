@@ -52,7 +52,7 @@ public class RequestParser {
     }
 
     public static <T extends AbstractStub<T>> T parseHeaders(HttpHeaders headers, T stub) {
-        return MetadataUtils.attachHeaders(stub, parseHeaders(headers));
+        return stub.withInterceptors(MetadataUtils.newAttachHeadersInterceptor(parseHeaders(headers)));
     }
 
     public static Metadata parseHeaders(HttpHeaders headers) {

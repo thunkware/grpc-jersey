@@ -30,7 +30,7 @@ public class ProxyIntegrationApp extends Application<Configuration> {
         TestServiceGrpc.TestServiceStub stub =
                 TestServiceGrpc.newStub(InProcessChannelBuilder
                         .forName("TestService")
-                        .usePlaintext(true)
+                        .usePlaintext()
                         .directExecutor()
                         .build());
 

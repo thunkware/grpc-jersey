@@ -1,7 +1,6 @@
 buildscript {
     repositories {
         mavenCentral()
-        jcenter()
     }
 
     apply from: file('gradle/buildscript.gradle'), to: buildscript
@@ -18,10 +17,10 @@ plugins {
 }
 
 ext {
-    grpcVersion = "1.19.0"
+    grpcVersion = "1.59.0"
     jerseyVersion = "2.25.1"
     lombokVersion = "1.18.6"
-    protobufVersion = "3.6.1"
+    protobufVersion = "3.25.1"
 }
 
 allprojects {
@@ -76,7 +75,7 @@ subprojects {
         provided "org.projectlombok:lombok:${lombokVersion}"
 
         compileOnly "org.projectlombok:lombok:${lombokVersion}"
-	      apt "org.projectlombok:lombok:${lombokVersion}"
+          apt "org.projectlombok:lombok:${lombokVersion}"
 
         compile 'org.slf4j:slf4j-api:1.7.25'
 
@@ -100,6 +99,10 @@ project(":jersey-rpc-support") {
     ['java', 'grpc', 'jersey'].each { plugin ->
         sourceSets.main.java.srcDirs += file("${protobuf.generatedFilesBaseDir}/main/${plugin}")
         sourceSets.test.java.srcDirs += file("${protobuf.generatedFilesBaseDir}/test/${plugin}")
+    }
+
+    tasks.withType(JavaCompile) {
+        options.deprecation = true
     }
 
     dependencies {
@@ -130,6 +133,41 @@ project(":jersey-rpc-support") {
             }
         }
     }
+
+    task createPom  {
+        pom {
+            project {
+                groupId 'io.github.thunkware'
+                artifactId 'jersey-rpc-support'
+                version version
+                name 'jersey-rpc-support'
+                description 'jersey-rpc-support'
+                url 'https://github.com/thunkware/grpc-jersey'
+
+                licenses {
+                    license {
+                        name 'The Apache Software License, Version 2.0'
+                        url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                        distribution 'repo'
+                    }
+                }
+
+                developers {
+                    developer {
+                      id 'xorlevgithub'
+                      name 'Michael Rose'
+                    }
+                }
+
+                scm {
+                    connection 'scm:git:git@github.com:thunkware/grpc-jersey.git'
+                    developerConnection 'scm:git:git@github.com:thunkware/grpc-jersey.git'
+                    url 'scm:git:git@github.com:thunkware/grpc-jersey.git'
+                }
+
+            }
+        }.writeTo("pom.xml")
+    }
 }
 
 project(":protoc-gen-jersey") {
@@ -152,9 +190,9 @@ project(":protoc-gen-jersey") {
         compile "com.google.protobuf:protobuf-java-util:${protobufVersion}"
         compile "io.grpc:grpc-protobuf:${grpcVersion}"
         compile "io.grpc:grpc-stub:${grpcVersion}"
-        compile "com.github.spullara.mustache.java:compiler:0.9.4"
-        compile "com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.9.7"
-        compile "com.fasterxml.jackson.core:jackson-databind:2.9.7"
+        compile "com.github.spullara.mustache.java:compiler:0.9.11"
+        compile "com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.16.0"
+        compile "com.fasterxml.jackson.core:jackson-databind:2.16.0"
 
         testCompile "org.glassfish.jersey.core:jersey-common:${jerseyVersion}"
     }
@@ -234,6 +272,7 @@ project(":protoc-gen-jersey") {
     }
 
     tasks.withType(JavaCompile).all {
+    options.deprecation = true
         def props = new Properties()
         props.put("version", version)
         def propFile = new File("${project.projectDir}/src/main/resources/build.properties")
@@ -260,6 +299,41 @@ project(":protoc-gen-jersey") {
     buildArtifacts.dependsOn(shadowJar)
     buildArtifacts.dependsOn(createExe)
     buildArtifacts.dependsOn(prependShellStub)
+
+
+    task createPom  {
+        pom {
+            project {
+                groupId 'io.github.thunkware'
+                artifactId 'protoc-gen-jersey'
+                version version
+                name 'protoc-gen-jersey'
+                description 'protoc-gen-jersey'
+                url 'https://github.com/thunkware/grpc-jersey'
+
+                licenses {
+                    license {
+                        name 'The Apache Software License, Version 2.0'
+                        url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                        distribution 'repo'
+                    }
+                }
+
+                developers {
+                    developer {
+                      id 'xorlevgithub'
+                      name 'Michael Rose'
+                    }
+                }
+
+                scm {
+                    connection 'scm:git:git@github.com:thunkware/grpc-jersey.git'
+                    developerConnection 'scm:git:git@github.com:thunkware/grpc-jersey.git'
+                    url 'scm:git:git@github.com:thunkware/grpc-jersey.git'
+                }
+            }
+        }.writeTo("pom.xml")
+    }
 }
 
 project(":integration-test-base") {
@@ -275,6 +349,7 @@ project(":integration-test-base") {
 
     dependencies {
         compile 'org.slf4j:jul-to-slf4j:1.7.21'
+        compile "io.grpc:grpc-inprocess:${grpcVersion}"
         testCompile project(':protoc-gen-jersey')
         testCompile('io.dropwizard:dropwizard-core:1.3.8') {
             exclude group: 'org.eclipse.jetty'
@@ -318,6 +393,7 @@ project(":integration-test-serverstub") {
     }
 
     dependencies {
+        compile "io.grpc:grpc-inprocess:${grpcVersion}"
         testCompile(project(':integration-test-base').sourceSets.test.output)
         testCompile project(':protoc-gen-jersey')
         testCompile('io.dropwizard:dropwizard-core:1.3.8') {
@@ -374,6 +450,7 @@ project(":integration-test-proxy") {
     }
 
     dependencies {
+        compile "io.grpc:grpc-inprocess:${grpcVersion}"
         testCompile(project(':integration-test-base').sourceSets.test.output)
         testCompile project(':protoc-gen-jersey')
         testCompile('io.dropwizard:dropwizard-core:1.3.8') {
@@ -416,5 +493,4 @@ project(":integration-test-proxy") {
 }
 
 
-apply from: file('gradle/release.gradle')
 apply from: file('gradle/maven.gradle')

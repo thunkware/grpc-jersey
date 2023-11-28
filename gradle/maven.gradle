@@ -52,15 +52,15 @@ configure(subprojects.findAll{it.getPlugins().hasPlugin(MavenPlugin)}) {
             distribution 'repo'
           }
         }
-        url "https://github.com/Xorlev/${rootProject.name}"
+        url "https://github.com/thunkware/${rootProject.name}"
         scm {
-          connection "scm:git:git@github.com:Xorlev/${rootProject.name}.git"
-          url "scm:git:git@github.com:Xorlev/${rootProject.name}.git"
-          developerConnection "scm:git:git@github.com:Xorlev/${rootProject.name}.git"
+          connection "scm:git:git@github.com:thunkware/${rootProject.name}.git"
+          url "scm:git:git@github.com:thunkware/${rootProject.name}.git"
+          developerConnection "scm:git:git@github.com:thunkware/${rootProject.name}.git"
         }
         issueManagement {
           system 'github'
-          url "https://github.com/Xorlev/${rootProject.name}/issues"
+          url "https://github.com/thunkware/${rootProject.name}/issues"
         }
       }
     }

@@ -25,7 +25,7 @@ public class ProxyIntegration extends IntegrationBase {
     private static TestServiceGrpc.TestServiceStub stub =
             TestServiceGrpc.newStub(InProcessChannelBuilder
                     .forName("TestService")
-                    .usePlaintext(true)
+                    .usePlaintext()
                     .directExecutor()
                     .build());
     @ClassRule
