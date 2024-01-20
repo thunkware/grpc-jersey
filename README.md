@@ -35,7 +35,7 @@ but an example using Maven can be found [in examples](https://github.com/Xorlev/
 ext {
     protobufVersion = "3.5.0"
     grpcVersion = "1.8.0"
-    grpcJerseyVersion = "0.3.0"
+    grpcJerseyVersion = "0.3.6"
 }
 
 protobuf {
@@ -47,7 +47,7 @@ protobuf {
             artifact = "io.grpc:protoc-gen-grpc-java:${grpcVersion}"
         }
         jersey {
-            artifact = "com.xorlev.grpc-jersey:protoc-gen-jersey:${grpcJerseyVersion}"
+            artifact = "io.github.thunkware:protoc-gen-jersey:${grpcJerseyVersion}"
         }
     }
     generateProtoTasks {
@@ -62,7 +62,7 @@ protobuf {
 You'll also have to be sure to include the `jersey-rpc-support` package in your service:
 
 ```groovy
-compile "com.xorlev.grpc-jersey:jersey-rpc-support:${grpcJerseyVersion}"
+compile "io.github.thunkware:jersey-rpc-support:${grpcJerseyVersion}"
 ```
 
 Running `./gradlew build` and a protobuf definition that looks roughly like the below
@@ -130,7 +130,7 @@ or
 ```xml
     <configuration>
       <pluginId>grpc-jersey</pluginId>
-      <pluginArtifact>com.xorlev.grpc-jersey:protoc-gen-jersey:0.1.4:exe:${os.detected.classifier}</pluginArtifact>
+      <pluginArtifact>io.github.thunkware:protoc-gen-jersey:0.3.6:exe:${os.detected.classifier}</pluginArtifact>
       <pluginParameter>yaml=integration-test-base/src/test/proto/http_api_config.yml</pluginParameter>
     </configuration>
 
