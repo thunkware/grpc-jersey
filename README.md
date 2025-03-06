@@ -1,4 +1,4 @@
-# grpc-jersey [![Build Status](https://travis-ci.org/Xorlev/grpc-jersey.svg?branch=master)](https://travis-ci.org/Xorlev/grpc-jersey) [![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.xorlev.grpc-jersey/protoc-gen-jersey/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.xorlev.grpc-jersey/protoc-gen-jersey)
+# grpc-jersey [![Maven Central](https://maven-badges.herokuapp.com/maven-central/io.github.thunkware/protoc-gen-jersey/badge.svg)](https://maven-badges.herokuapp.com/maven-central/io.github.thunkware/protoc-gen-jersey)
 protoc plugin for compiling [gRPC](https://www.grpc.io/) RPC services as Jersey/REST endpoints. Uses the
 [HttpRule](https://cloud.google.com/service-management/reference/rpc/google.api#http) annotations also
 used by the [grpc-gateway](https://github.com/grpc-ecosystem/grpc-gateway) project to drive resource generation.
@@ -35,7 +35,7 @@ but an example using Maven can be found [in examples](https://github.com/Xorlev/
 ext {
     protobufVersion = "3.5.0"
     grpcVersion = "1.8.0"
-    grpcJerseyVersion = "0.3.6"
+    grpcJerseyVersion = "0.3.7"
 }
 
 protobuf {
@@ -130,7 +130,7 @@ or
 ```xml
     <configuration>
       <pluginId>grpc-jersey</pluginId>
-      <pluginArtifact>io.github.thunkware:protoc-gen-jersey:0.3.6:exe:${os.detected.classifier}</pluginArtifact>
+      <pluginArtifact>io.github.thunkware:protoc-gen-jersey:0.3.7:exe:${os.detected.classifier}</pluginArtifact>
       <pluginParameter>yaml=integration-test-base/src/test/proto/http_api_config.yml</pluginParameter>
     </configuration>
 
